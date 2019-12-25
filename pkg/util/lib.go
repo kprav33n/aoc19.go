@@ -2,14 +2,14 @@ package util
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func ReadStdinToIntArray(sep string) []int {
-	bytes, err := ioutil.ReadAll(os.Stdin)
+func ReadIntInputs(input io.Reader, sep string) []int {
+	bytes, err := ioutil.ReadAll(input)
 	if err != nil {
 		panic(fmt.Sprintf("failed to read from stdin: %v", err))
 	}
@@ -17,7 +17,7 @@ func ReadStdinToIntArray(sep string) []int {
 	lines := strings.Split(strings.TrimSpace(string(bytes)), sep)
 	mods := make([]int, len(lines), len(lines))
 	for i, line := range lines {
-		val, err := strconv.Atoi(line)
+		val, err := strconv.Atoi(strings.TrimSpace(line))
 		if err != nil {
 			panic(fmt.Sprintf("failed to convert %s to int: %v", line, err))
 		}
