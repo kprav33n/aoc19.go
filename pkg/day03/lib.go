@@ -39,9 +39,10 @@ func (p *Point) Down() Point {
 	return Point{p.X, p.Y - 1}
 }
 
-func tracePath(path []string) map[Point]struct{} {
-	points := make(map[Point]struct{})
+func tracePath(path []string) map[Point]int {
+	points := make(map[Point]int)
 	last := Point{0, 0}
+	steps := 0
 
 	for _, inst := range path {
 		unit, err := strconv.Atoi(inst[1:])
@@ -66,7 +67,10 @@ func tracePath(path []string) map[Point]struct{} {
 
 		for i := 1; i <= unit; i++ {
 			last = next(last)
-			points[last] = struct{}{}
+			steps++
+			if _, ok := points[last]; !ok {
+				points[last] = steps
+			}
 		}
 	}
 
@@ -89,4 +93,22 @@ func WireIntersectionMinDist(first []string, second []string) int {
 	}
 
 	return minDist
+}
+
+func WireIntersectionMinDelay(first []string, second []string) int {
+	firstPoints := tracePath(first)
+	secondPoints := tracePath(second)
+	minSteps := math.MaxInt32
+
+	for fp, fs := range firstPoints {
+		ss, ok := secondPoints[fp]
+		if ok {
+			ts := fs + ss
+			if ts < minSteps {
+				minSteps = ts
+			}
+		}
+	}
+
+	return minSteps
 }

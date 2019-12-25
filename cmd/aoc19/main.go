@@ -66,6 +66,13 @@ func main() {
 		result := day03.WireIntersectionMinDist(first, second)
 		fmt.Println(result)
 
+	case "day03b":
+		lines := util.ReadStringInputs(os.Stdin, "\n")
+		first := strings.Split(strings.TrimSpace(lines[0]), ",")
+		second := strings.Split(strings.TrimSpace(lines[1]), ",")
+		result := day03.WireIntersectionMinDelay(first, second)
+		fmt.Println(result)
+
 	default:
 		panic(fmt.Sprintf("unhandled argument: %s", os.Args[1]))
 	}
