@@ -26,9 +26,11 @@ func main() {
 		code[1] = 12
 		code[2] = 2
 		err := day02.Execute(code)
+
 		if err != nil {
 			panic(err)
 		}
+
 		fmt.Println(code[0])
 
 	default:

@@ -11,7 +11,9 @@ import (
 
 func TestReadIntInputsLineSeparated(t *testing.T) {
 	assert := assert.New(t)
+
 	var input bytes.Buffer
+
 	input.Write([]byte(" 1\n2\n-3\n0\n "))
 	items := util.ReadIntInputs(&input, "\n")
 	assert.Equal([]int{1, 2, -3, 0}, items)
@@ -19,7 +21,9 @@ func TestReadIntInputsLineSeparated(t *testing.T) {
 
 func TestReadIntInputsCommaSeparated(t *testing.T) {
 	assert := assert.New(t)
+
 	var input bytes.Buffer
+
 	input.Write([]byte("-1, 2,3,993429"))
 	items := util.ReadIntInputs(&input, ",")
 	assert.Equal([]int{-1, 2, 3, 993429}, items)
@@ -38,7 +42,9 @@ func TestReadIntInputsReadingPanic(t *testing.T) {
 
 func TestReadIntInputsParsingPanic(t *testing.T) {
 	assert := assert.New(t)
+
 	var input bytes.Buffer
+
 	input.Write([]byte("-1, deadbeef,3,993429"))
 	assert.Panics(func() { util.ReadIntInputs(&input, ",") })
 }
