@@ -68,6 +68,7 @@ func tracePath(path []string) map[Point]int {
 		for i := 1; i <= unit; i++ {
 			last = next(last)
 			steps++
+
 			if _, ok := points[last]; !ok {
 				points[last] = steps
 			}

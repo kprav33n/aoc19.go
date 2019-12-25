@@ -12,68 +12,89 @@ import (
 )
 
 func main() {
-	switch os.Args[1] {
-	case "day01a":
-		mods := util.ReadIntInputs(os.Stdin, "\n")
-		result := day01.FuelRequirementsSum(mods, day01.FuelRequirements)
-		fmt.Println(result)
+	dispatcher := map[string]func(){
+		"day01a": day01a,
+		"day01b": day01b,
+		"day02a": day02a,
+		"day02b": day02b,
+		"day03a": day03a,
+		"day03b": day03b,
+	}
 
-	case "day01b":
-		mods := util.ReadIntInputs(os.Stdin, "\n")
-		result := day01.FuelRequirementsSum(mods, day01.RecFuelRequirements)
-		fmt.Println(result)
+	f, ok := dispatcher[os.Args[1]]
+	if !ok {
+		f = unimplemented
+	}
 
-	case "day02a":
-		code := util.ReadIntInputs(os.Stdin, ",")
-		code[1] = 12
-		code[2] = 2
+	f()
+}
 
-		err := day02.Execute(code)
-		if err != nil {
-			panic(err)
-		}
+func unimplemented() {
+	panic("nothing to see here!")
+}
 
-		fmt.Println(code[0])
+func day01a() {
+	mods := util.ReadIntInputs(os.Stdin, "\n")
+	result := day01.FuelRequirementsSum(mods, day01.FuelRequirements)
+	fmt.Println(result)
+}
 
-	case "day02b":
-		code := util.ReadIntInputs(os.Stdin, ",")
+func day01b() {
+	mods := util.ReadIntInputs(os.Stdin, "\n")
+	result := day01.FuelRequirementsSum(mods, day01.RecFuelRequirements)
+	fmt.Println(result)
+}
 
-		for noun := 0; noun < 100; noun++ {
-			for verb := 0; verb < 100; verb++ {
-				inst := make([]int, len(code))
-				copy(inst, code)
-				inst[1] = noun
-				inst[2] = verb
+func day02a() {
+	code := util.ReadIntInputs(os.Stdin, ",")
+	code[1] = 12
+	code[2] = 2
 
-				err := day02.Execute(inst)
-				if err != nil {
-					panic(err)
-				}
+	err := day02.Execute(code)
+	if err != nil {
+		panic(err)
+	}
 
-				if inst[0] == 19690720 {
-					fmt.Println(100*noun + verb)
-					return
-				}
+	fmt.Println(code[0])
+}
+
+func day02b() {
+	code := util.ReadIntInputs(os.Stdin, ",")
+
+	for noun := 0; noun < 100; noun++ {
+		for verb := 0; verb < 100; verb++ {
+			inst := make([]int, len(code))
+			copy(inst, code)
+			inst[1] = noun
+			inst[2] = verb
+
+			err := day02.Execute(inst)
+			if err != nil {
+				panic(err)
+			}
+
+			if inst[0] == 19690720 {
+				fmt.Println(100*noun + verb)
+				return
 			}
 		}
-
-		panic("unable to arrive at a solution")
-
-	case "day03a":
-		lines := util.ReadStringInputs(os.Stdin, "\n")
-		first := strings.Split(strings.TrimSpace(lines[0]), ",")
-		second := strings.Split(strings.TrimSpace(lines[1]), ",")
-		result := day03.WireIntersectionMinDist(first, second)
-		fmt.Println(result)
-
-	case "day03b":
-		lines := util.ReadStringInputs(os.Stdin, "\n")
-		first := strings.Split(strings.TrimSpace(lines[0]), ",")
-		second := strings.Split(strings.TrimSpace(lines[1]), ",")
-		result := day03.WireIntersectionMinDelay(first, second)
-		fmt.Println(result)
-
-	default:
-		panic(fmt.Sprintf("unhandled argument: %s", os.Args[1]))
 	}
+
+	panic("unable to arrive at a solution")
+}
+
+func day03a() {
+	lines := util.ReadStringInputs(os.Stdin, "\n")
+	first := strings.Split(strings.TrimSpace(lines[0]), ",")
+	second := strings.Split(strings.TrimSpace(lines[1]), ",")
+	result := day03.WireIntersectionMinDist(first, second)
+	fmt.Println(result)
+}
+
+func day03b() {
+	lines := util.ReadStringInputs(os.Stdin, "\n")
+	first := strings.Split(strings.TrimSpace(lines[0]), ",")
+	second := strings.Split(strings.TrimSpace(lines[1]), ",")
+	result := day03.WireIntersectionMinDelay(first, second)
+	fmt.Println(result)
 }
