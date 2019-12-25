@@ -77,38 +77,33 @@ func tracePath(path []string) map[Point]int {
 	return points
 }
 
-func WireIntersectionMinDist(first []string, second []string) int {
+func wireIntersectionMetric(first []string, second []string,
+	strategy func(p Point, steps int) int) int {
 	firstPoints := tracePath(first)
 	secondPoints := tracePath(second)
-	minDist := math.MaxInt32
-
-	for fp := range firstPoints {
-		_, ok := secondPoints[fp]
-		if ok {
-			dist := fp.ManhattanDistance(Point{0, 0})
-			if dist < minDist {
-				minDist = dist
-			}
-		}
-	}
-
-	return minDist
-}
-
-func WireIntersectionMinDelay(first []string, second []string) int {
-	firstPoints := tracePath(first)
-	secondPoints := tracePath(second)
-	minSteps := math.MaxInt32
+	minMetric := math.MaxInt32
 
 	for fp, fs := range firstPoints {
 		ss, ok := secondPoints[fp]
 		if ok {
-			ts := fs + ss
-			if ts < minSteps {
-				minSteps = ts
+			metric := strategy(fp, fs+ss)
+			if metric < minMetric {
+				minMetric = metric
 			}
 		}
 	}
 
-	return minSteps
+	return minMetric
+}
+
+func WireIntersectionMinDist(first []string, second []string) int {
+	return wireIntersectionMetric(first, second, func(p Point, _ int) int {
+		return p.ManhattanDistance(Point{0, 0})
+	})
+}
+
+func WireIntersectionMinDelay(first []string, second []string) int {
+	return wireIntersectionMetric(first, second, func(_ Point, steps int) int {
+		return steps
+	})
 }
