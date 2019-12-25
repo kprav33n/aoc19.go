@@ -48,3 +48,18 @@ func TestReadIntInputsParsingPanic(t *testing.T) {
 	input.Write([]byte("-1, deadbeef,3,993429"))
 	assert.Panics(func() { util.ReadIntInputs(&input, ",") })
 }
+
+func TestReadStringInputsLineSeparated(t *testing.T) {
+	assert := assert.New(t)
+
+	var input bytes.Buffer
+
+	input.Write([]byte("L1\nL2"))
+	items := util.ReadStringInputs(&input, "\n")
+	assert.Equal([]string{"L1", "L2"}, items)
+}
+
+func TestReadStringInputsReadingPanic(t *testing.T) {
+	assert := assert.New(t)
+	assert.Panics(func() { util.ReadStringInputs(&ErroringReader{}, ",") })
+}

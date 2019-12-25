@@ -28,3 +28,12 @@ func ReadIntInputs(input io.Reader, sep string) []int {
 
 	return mods
 }
+
+func ReadStringInputs(input io.Reader, sep string) []string {
+	bytes, err := ioutil.ReadAll(input)
+	if err != nil {
+		panic(fmt.Sprintf("failed to read from stdin: %v", err))
+	}
+
+	return strings.Split(strings.TrimSpace(string(bytes)), sep)
+}

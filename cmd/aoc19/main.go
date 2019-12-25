@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/kprav33n/aoc19.go/pkg/day01"
 	"github.com/kprav33n/aoc19.go/pkg/day02"
+	"github.com/kprav33n/aoc19.go/pkg/day03"
 	"github.com/kprav33n/aoc19.go/pkg/util"
 )
 
@@ -56,6 +58,13 @@ func main() {
 		}
 
 		panic("unable to arrive at a solution")
+
+	case "day03a":
+		lines := util.ReadStringInputs(os.Stdin, "\n")
+		first := strings.Split(strings.TrimSpace(lines[0]), ",")
+		second := strings.Split(strings.TrimSpace(lines[1]), ",")
+		result := day03.WireIntersectionMinDist(first, second)
+		fmt.Println(result)
 
 	default:
 		panic(fmt.Sprintf("unhandled argument: %s", os.Args[1]))
