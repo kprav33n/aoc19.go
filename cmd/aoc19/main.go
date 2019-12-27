@@ -22,6 +22,7 @@ func main() {
 		"day03a": day03a,
 		"day03b": day03b,
 		"day04a": day04a,
+		"day04b": day04b,
 	}
 
 	f, ok := dispatcher[os.Args[1]]
@@ -105,11 +106,27 @@ func day03b() {
 func day04a() {
 	items := util.ReadIntInputs(os.Stdin, "-")
 	numValid := 0
+
 	for i := items[0]; i <= items[1]; i++ {
 		password := strconv.FormatInt(int64(i), 10)
 		if day04.IsValidPassword(password) {
 			numValid++
 		}
 	}
+
+	fmt.Println(numValid)
+}
+
+func day04b() {
+	items := util.ReadIntInputs(os.Stdin, "-")
+	numValid := 0
+
+	for i := items[0]; i <= items[1]; i++ {
+		password := strconv.FormatInt(int64(i), 10)
+		if day04.IsValidPassword2(password) {
+			numValid++
+		}
+	}
+
 	fmt.Println(numValid)
 }
