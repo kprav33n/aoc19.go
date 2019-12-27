@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/kprav33n/aoc19.go/pkg/day01"
 	"github.com/kprav33n/aoc19.go/pkg/day02"
 	"github.com/kprav33n/aoc19.go/pkg/day03"
+	"github.com/kprav33n/aoc19.go/pkg/day04"
 	"github.com/kprav33n/aoc19.go/pkg/util"
 )
 
@@ -19,6 +21,7 @@ func main() {
 		"day02b": day02b,
 		"day03a": day03a,
 		"day03b": day03b,
+		"day04a": day04a,
 	}
 
 	f, ok := dispatcher[os.Args[1]]
@@ -97,4 +100,16 @@ func day03b() {
 	second := strings.Split(strings.TrimSpace(lines[1]), ",")
 	result := day03.WireIntersectionMinDelay(first, second)
 	fmt.Println(result)
+}
+
+func day04a() {
+	items := util.ReadIntInputs(os.Stdin, "-")
+	numValid := 0
+	for i := items[0]; i <= items[1]; i++ {
+		password := strconv.FormatInt(int64(i), 10)
+		if day04.IsValidPassword(password) {
+			numValid++
+		}
+	}
+	fmt.Println(numValid)
 }
